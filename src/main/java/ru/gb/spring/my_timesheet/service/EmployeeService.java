@@ -39,7 +39,7 @@ public class EmployeeService {
     public List<Timesheet> getTimesheetsByEmployeeId(Long id){
         List<Timesheet> timesheetsByEmployeeId = new ArrayList<>();
         for (Timesheet timesheet : timesheetRepository.findAll()) {
-            if(timesheet.getEmployeeId().equals(id)){
+            if(timesheet.getEmployee().getId().equals(id)){
                 timesheetsByEmployeeId.add(timesheet);
             }
         }

@@ -64,8 +64,8 @@ public class Application {
 			createdAt = createdAt.plusDays(1).plusHours(1);
 
 			Timesheet timesheet = new Timesheet();
-			timesheet.setProjectId(ThreadLocalRandom.current().nextLong(1, 6));
-			timesheet.setEmployeeId(ThreadLocalRandom.current().nextLong(1,6));
+			timesheet.setProject(projectRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
+			timesheet.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1,6)));
 //			timesheet.setCreatedAt(createdAt));
 			timesheet.setCreatedAt(LocalDate.from(createdAt));
 			timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));

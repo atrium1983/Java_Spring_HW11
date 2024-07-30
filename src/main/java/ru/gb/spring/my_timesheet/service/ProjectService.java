@@ -39,7 +39,7 @@ public class ProjectService {
     public List<Timesheet> getTimesheetsByProjectId(Long id){
         List<Timesheet> timesheetsByProjectId = new ArrayList<>();
         for (Timesheet timesheet : timesheetRepository.findAll()) {
-            if(timesheet.getProjectId().equals(id)){
+            if(timesheet.getProject().getId().equals(id)){
                 timesheetsByProjectId.add(timesheet);
             }
         }

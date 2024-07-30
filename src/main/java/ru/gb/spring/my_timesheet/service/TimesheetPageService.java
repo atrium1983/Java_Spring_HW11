@@ -29,14 +29,14 @@ public class TimesheetPageService {
     }
 
     private TimesheetPageDto convert(Timesheet timesheet) {
-        Project project = projectService.findById(timesheet.getProjectId())
+        Project project = projectService.findById(timesheet.getProject().getId())
                 .orElseThrow();
 
         TimesheetPageDto timesheetPageParameters = new TimesheetPageDto();
         timesheetPageParameters.setProjectName(project.getName());
         timesheetPageParameters.setProjectId(String.valueOf(project.getId()));
         timesheetPageParameters.setId(String.valueOf(timesheet.getId()));
-        timesheetPageParameters.setEmployeeId(String.valueOf(timesheet.getEmployeeId()));
+        timesheetPageParameters.setEmployeeId(String.valueOf(timesheet.getEmployee().getId()));
         timesheetPageParameters.setMinutes(String.valueOf(timesheet.getMinutes()));
         timesheetPageParameters.setCreatedAt(timesheet.getCreatedAt().format(DateTimeFormatter.ISO_DATE));
 

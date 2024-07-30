@@ -43,12 +43,12 @@ public class TimesheetService {
     }
 
     public Timesheet create(Timesheet timesheet) {
-        if (Objects.isNull(timesheet.getProjectId())) {
+        if (Objects.isNull(timesheet.getProject().getId())) {
             throw new IllegalArgumentException("projectId must not be null");
         }
 
-        if (projectRepository.findById(timesheet.getProjectId()).isEmpty()) {
-            throw new NoSuchElementException("Project with id " + timesheet.getProjectId() + " does not exists");
+        if (projectRepository.findById(timesheet.getProject().getId()).isEmpty()) {
+            throw new NoSuchElementException("Project with id " + timesheet.getProject().getId() + " does not exists");
         }
 //        timesheet.setCreatedAt(LocalDateTime.now().withNano(0));
 //        timesheet.setCreatedAt(LocalDateTime.now().withNano(0));

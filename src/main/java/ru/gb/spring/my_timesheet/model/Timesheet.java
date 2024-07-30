@@ -21,8 +21,12 @@ public class Timesheet {
     @EqualsAndHashCode.Include //  Аннотация говорит методам equals и hashCode с каким полем работать(т.е. в данном
     // случае сравнение будет по полю Id)
     private Long id;
-    private Long projectId;
-    private Long employeeId;
+//    private Long projectId;
+//    private Long employeeId;
+    @ManyToOne
+    private Project project;
+    @ManyToOne
+    private Employee employee;
     private Integer minutes;
 //    private LocalDateTime createdAt;
     private LocalDate createdAt;
