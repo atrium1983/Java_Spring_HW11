@@ -22,19 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name ="users_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    private List<Role> roles;
-
     @ManyToMany(mappedBy = "users")
-//    @JoinTable(name = "user_role",
-//            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "users_id",
-//                    referencedColumnName = "id"))
     private List<Role> roles;
 }
 

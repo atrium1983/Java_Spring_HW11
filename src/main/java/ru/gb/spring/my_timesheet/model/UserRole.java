@@ -16,12 +16,10 @@ public class UserRole {
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-//    @Column(name = "user_id")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-//    @Column(name = "role_id")
     private Role role;
 
 }

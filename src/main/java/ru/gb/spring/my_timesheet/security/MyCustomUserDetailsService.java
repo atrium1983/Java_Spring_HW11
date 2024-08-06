@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import ru.gb.spring.my_timesheet.model.User;
-import ru.gb.spring.my_timesheet.model.UserRole;
-import ru.gb.spring.my_timesheet.repository.RoleRepository;
 import ru.gb.spring.my_timesheet.repository.UserRepository;
 import ru.gb.spring.my_timesheet.repository.UserRoleRepository;
 
@@ -27,7 +25,6 @@ public class MyCustomUserDetailsService implements UserDetailsService {
     // Строго говоря, в этой реализации UserDetailsService можно загружать данные о пользователе из любого источника:
     // внешний auth-service, ldap-сервер, ...
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
 
     @Override
