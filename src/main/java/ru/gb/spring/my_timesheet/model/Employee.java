@@ -19,11 +19,11 @@ public class Employee {
     private String lastName;
     private String phone;
     private String department;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "employee_project",
-            joinColumns = @JoinColumn(name ="employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id")
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "employees")
+//    @JoinTable(
+//            name = "employee_project",
+//            joinColumns = @JoinColumn(name ="employee_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id")
+//    )
     private List<Project> projects;
 }

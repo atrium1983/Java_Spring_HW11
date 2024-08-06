@@ -23,8 +23,10 @@ public class Timesheet {
 //    private Long projectId;
 //    private Long employeeId;
     @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
     @ManyToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
     private Integer minutes;
 //    private LocalDateTime createdAt;
