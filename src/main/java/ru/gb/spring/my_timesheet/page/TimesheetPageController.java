@@ -1,6 +1,8 @@
 package ru.gb.spring.my_timesheet.page;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,10 @@ import java.util.Optional;
 @RequestMapping("/home/timesheets")
 @RequiredArgsConstructor // аннотация Lombok, чтобы не писать код конструктора для класса(включает только поля final).
 // Аннотация @AllArgsConstructor - включает все поля
+//@PreAuthorize("hasRole(\"admin\")") // SPel - spring expression language
+//@Secured({"admin"}) // эта аннотация говорит, что к этому эндпоинту имеет доступ только admin (тогда можно не прописывать
+// в SecurityConfiguration в requestMatchers. Важно! Проверяет по hasrole! Можно ставить над всем контроллером,
+// либо над каждым эндпоинтом отдельно. У аннотации приоритет перед requestMatchers в SecurityConfiguration
 public class TimesheetPageController {
 
     private final TimesheetPageService service;
@@ -27,6 +33,7 @@ public class TimesheetPageController {
 //  }
 
     @GetMapping
+//    @Secured({"admin", "user"})
     public String getAllTimesheets(Model model) {
         List<TimesheetPageDto> timesheets = service.findAll();
         model.addAttribute("timesheets", timesheets);

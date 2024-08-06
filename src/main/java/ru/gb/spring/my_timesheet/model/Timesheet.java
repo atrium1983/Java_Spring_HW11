@@ -18,8 +18,7 @@ import java.time.LocalDateTime;
 public class Timesheet {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @EqualsAndHashCode.Include //  Аннотация говорит методам equals и hashCode с каким полем работать(т.е. в данном
-    // случае сравнение будет по полю Id)
+    @EqualsAndHashCode.Include
     private Long id;
 //    private Long projectId;
 //    private Long employeeId;

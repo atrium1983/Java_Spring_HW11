@@ -15,6 +15,6 @@ spring:
     jpa:
         show-sql: true
 #        hibernate:
-#            ddl-auto: validate
+#            ddl-auto: update
 # validate - обновляет таблицу, а если ее нет - то выдаёт ошибку
 
