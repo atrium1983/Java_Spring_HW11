@@ -13,7 +13,6 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
     List<Timesheet> findByCreatedAtBefore(LocalDate date);
 
 
-
 //    /* , NamedEntityRepository<Timesheet, Long> */ {
 
         // select * from timesheet where project_id = $1

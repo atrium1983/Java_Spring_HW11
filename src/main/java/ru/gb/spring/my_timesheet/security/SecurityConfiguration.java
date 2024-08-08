@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,20 +25,28 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain noSecurity(HttpSecurity http) throws Exception { // оключить запрос логин-пароля
         return http
-                .authorizeHttpRequests(requests -> requests
-//                                .requestMatchers("/home/projects/**").hasAuthority(RoleName.ADMIN.getName())
-//                                .requestMatchers("/home/projects/**").hasRole("admin") // если этот способ, тогда в Authority,
-//                                если не определено в бине GrantedAuthorityDefaults выше, ищет ROLEadmin
-                                .requestMatchers("/home/projects/**", "/home/employees/**").hasRole(RoleName.ADMIN.getName())
-                                .requestMatchers("/home/timesheets/**").hasRole(RoleName.USER.getName())
-                                .requestMatchers("/timesheets/**", "/projects/**", "/employees/**").hasRole(RoleName.REST.getName())
-                                .anyRequest().authenticated()
-                )
-                .formLogin(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(it -> it.anyRequest().permitAll())
                 .build();
     }
+
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authorizeHttpRequests(requests -> requests
+////                                .requestMatchers("/home/projects/**").hasAuthority(RoleName.ADMIN.getName())
+////                                .requestMatchers("/home/projects/**").hasRole("admin") // если этот способ, тогда в Authority,
+////                                если не определено в бине GrantedAuthorityDefaults выше, ищет ROLEadmin
+//                                .requestMatchers("/home/projects/**", "/home/employees/**").hasRole(RoleName.ADMIN.getName())
+//                                .requestMatchers("/home/timesheets/**").hasRole(RoleName.USER.getName())
+//                                .requestMatchers("/timesheets/**", "/projects/**", "/employees/**").hasRole(RoleName.REST.getName())
+//                                .anyRequest().authenticated()
+//                )
+//                .formLogin(Customizer.withDefaults())
+//                .build();
+//    }
 
     @Bean // вместо класса MyCustomPasswordEncoder
     PasswordEncoder passwordEncoder() {

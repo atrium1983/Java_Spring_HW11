@@ -3,8 +3,10 @@ package ru.gb.spring.my_timesheet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import ru.gb.spring.my_timesheet.aspect.Recover;
 import ru.gb.spring.my_timesheet.model.*;
 import ru.gb.spring.my_timesheet.repository.*;
+import ru.gb.spring.my_timesheet.service.TimesheetService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -107,13 +109,10 @@ public class Application {
 		restRestRole.setRole(roleRepository.findByName(RoleName.REST));
 		userRoleRepository.save(restRestRole);
 
-		List<Project> projectList = new ArrayList<>();
-
 		ProjectRepository projectRepo = ctx.getBean(ProjectRepository.class);
 		for (int i = 1; i <= 5; i++) {
 			Project project = new Project();
 			project.setName("Project #" + i);
-			projectList.add(project);
 			projectRepo.save(project);
 		}
 
@@ -125,10 +124,17 @@ public class Application {
 			employee.setLastName(generator.generateMaleLastName());
 			employee.setPhone(generator.generatePhone());
 			employee.setDepartment(generator.generateDepartment());
-//			employee.setProjects(generator.generateListOfProjects(projectList));
 			employeeRepo.save(employee);
 		}
 
+//		EmployeeProjectRepository employeeProjectRepository = ctx.getBean(EmployeeProjectRepository.class);
+//		for (int i = 1; i <=10 ; i++) {
+//			EmployeeProject employeeProject = new EmployeeProject();
+//			employeeProject.setProject(projectRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
+//			employeeProject.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1,6)));
+//
+//			employeeProjectRepository.save(employeeProject);
+//		}
 
 		TimesheetRepository timesheetRepo = ctx.getBean(TimesheetRepository.class);
 
@@ -145,5 +151,13 @@ public class Application {
 
 			timesheetRepo.save(timesheet);
 		}
+
+		System.out.println("__________________________________________________________________________________");
+		System.out.println(getElement(6));
+	}
+	@Recover
+	static int getElement(int num){
+		int[] array = {1,2,3,4,5};
+		return array[num];
 	}
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -19,15 +20,18 @@ public class Project {
     private String name;
 //    @ManyToMany
 //    @JoinTable(
-//            name = "employee_project",
+////            name = "employee_project",
+//            name = "timesheet",
 //            joinColumns = @JoinColumn(name ="project_id"),
 //            inverseJoinColumns = @JoinColumn(name = "employee_id")
 //    )
 //    private List<Employee> employees;
 
-    @ManyToMany
-    @JoinTable(name = "employee_project",
-            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
-    private List<Employee> employees;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "timesheet",
+//            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
+//    private List<Employee> employees;
+    @OneToMany(mappedBy = "project")
+    private Set <Timesheet> timesheets;
 }

@@ -1,6 +1,10 @@
 package ru.gb.spring.my_timesheet.service;
 
+import org.slf4j.event.Level;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.gb.spring.my_timesheet.aspect.Recover;
+import ru.gb.spring.my_timesheet.aspect.Timer;
 import ru.gb.spring.my_timesheet.model.Project;
 import ru.gb.spring.my_timesheet.model.Timesheet;
 import ru.gb.spring.my_timesheet.repository.ProjectRepository;
@@ -14,16 +18,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service // то же самое, что и Component, это больше метка для нас
+@Timer(level = Level.TRACE)
 public class TimesheetService {
 
     private final TimesheetRepository timesheetRepository;
     private final ProjectRepository projectRepository;
 
+    public TimesheetService(TimesheetService timesheetService) {
+        this(timesheetService.timesheetRepository, timesheetService.projectRepository);
+    }
+    @Autowired
     public TimesheetService(TimesheetRepository timesheetRepository, ProjectRepository projectRepository) {
         this.timesheetRepository = timesheetRepository;
         this.projectRepository = projectRepository;
     }
 
+//    @Timer
     public Optional<Timesheet> findById(Long id) {
         return timesheetRepository.findById(id);
     }
@@ -55,6 +65,8 @@ public class TimesheetService {
         timesheet.setCreatedAt(LocalDate.now());
         return timesheetRepository.save(timesheet);
     }
+
+//    @Timer(enabled = false) // выключение аннотации без ее комментирования
 
     public void delete(Long id) {
         timesheetRepository.deleteById(id);

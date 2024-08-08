@@ -1,6 +1,7 @@
 package ru.gb.spring.my_timesheet.service;
 
 import org.springframework.stereotype.Service;
+import ru.gb.spring.my_timesheet.aspect.Recover;
 import ru.gb.spring.my_timesheet.model.Project;
 import ru.gb.spring.my_timesheet.model.Timesheet;
 import ru.gb.spring.my_timesheet.repository.ProjectRepository;
@@ -28,6 +29,7 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    @Recover
     public Project create(Project project){
         return projectRepository.save(project);
     }
