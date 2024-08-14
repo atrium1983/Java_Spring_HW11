@@ -1,13 +1,6 @@
-# Домашнее задание 8
-1. В LoggingAspect добавить логирование типов и значений аргументов.
-    Например (пример вывода): TimesheetService.findById(Long = 3)
-    Эту информацию можно достать из joinPoint.getArgs()
-2. Создать аспект, который аспектирует методы, помеченные аннотацией Recover, и делает следующее:
-    Если в процессе исполнения метода был exception (любой),
-    то его нужно залогировать ("Recovering TimesheetService#findById after Exception[RuntimeException.class, "exception message"]")
-    и вернуть default-значение наружу Default-значение: для примитивов значение по умолчанию, для ссылочных типов - null.
-    Для void-методов возвращать не нужно.
-3. **** В аннотацию Recover добавить атрибут Class<?>[] noRecoverFor, в которое можно записать список классов исключений, которые НЕ нужно отлавливать.
-Это вхождение должно учитывать иерархию классов. Пример:
-@Recover(noRecoverFor = {NoSuchElementException.class, IllegalStateException.class})
-public Timesheet getById(Long id) {...}    
+# Домашнее задание 9
+1. Повторить код с урока
+2. Запустить Eureka, Запустить 2 части (rest + page)
+3. В качестве результата работы прислать 1 скриншот со страницы localhost:8761, где видно оба запущенных приложения (Instances currently registered with Eureka)
+4. **** Попробовать запустить несколько экземпляров (instances) timesheets-rest
+5. **** Поизучать про RestTemplate. Попробовать завести его с использованием аннотации LoadBalanced   
