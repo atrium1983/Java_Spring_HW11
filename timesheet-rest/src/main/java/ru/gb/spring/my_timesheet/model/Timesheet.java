@@ -6,17 +6,12 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
-/**
- * Описание структуры json-ответа на REST-запросы.
- * Т.е. запросы, ответ на которые - JSON.
- */
-// эта аннотация ломбок позволяет не прописывать геттеры и сеттеры, они идут вместе с ней
 @Data
 @Entity
 @Table(name = "timesheet")
 public class Timesheet {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 //    private Long projectId;
@@ -28,6 +23,5 @@ public class Timesheet {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     private Integer minutes;
-//    private LocalDateTime createdAt;
     private LocalDate createdAt;
 }

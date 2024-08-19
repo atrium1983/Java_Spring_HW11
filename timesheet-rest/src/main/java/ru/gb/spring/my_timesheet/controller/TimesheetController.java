@@ -87,4 +87,14 @@ public class TimesheetController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Update Timesheet By Id", description = "Измениить запись учёта времени по идентификатору")
+    @PutMapping("/{id}")
+    @API.NotFoundResponse
+    @API.InternalErrorResponse
+    @API.TimesheetSuccessfulResponse
+    public ResponseEntity<Timesheet> update(@PathVariable @Parameter(description = "Идентификатор записи учёта времени") Long id, @RequestBody Timesheet timesheet) {
+        Timesheet updatedTimesheet = service.update(id, timesheet);
+        return ResponseEntity.ok(updatedTimesheet);
+    }
 }

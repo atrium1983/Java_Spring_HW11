@@ -115,15 +115,6 @@ public class MyRestApplication {
 			employeeRepo.save(employee);
 		}
 
-//		EmployeeProjectRepository employeeProjectRepository = ctx.getBean(EmployeeProjectRepository.class);
-//		for (int i = 1; i <=10 ; i++) {
-//			EmployeeProject employeeProject = new EmployeeProject();
-//			employeeProject.setProject(projectRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
-//			employeeProject.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1,6)));
-//
-//			employeeProjectRepository.save(employeeProject);
-//		}
-
 		TimesheetRepository timesheetRepo = ctx.getBean(TimesheetRepository.class);
 
 		LocalDateTime createdAt = LocalDateTime.now();
@@ -132,20 +123,11 @@ public class MyRestApplication {
 
 			Timesheet timesheet = new Timesheet();
 			timesheet.setProject(projectRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
-			timesheet.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1,6)));
-//			timesheet.setCreatedAt(createdAt));
+			timesheet.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
 			timesheet.setCreatedAt(LocalDate.from(createdAt));
 			timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));
 
 			timesheetRepo.save(timesheet);
 		}
-
-		System.out.println("__________________________________________________________________________________");
-		System.out.println(getElement(6));
-	}
-	@Recover
-	static int getElement(int num){
-		int[] array = {1,2,3,4,5};
-		return array[num];
 	}
 }

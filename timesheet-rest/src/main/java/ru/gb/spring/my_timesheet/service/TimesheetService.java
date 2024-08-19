@@ -3,7 +3,6 @@ package ru.gb.spring.my_timesheet.service;
 import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.gb.spring.my_timesheet.aspect.Recover;
 import ru.gb.spring.my_timesheet.aspect.Timer;
 import ru.gb.spring.my_timesheet.model.Project;
 import ru.gb.spring.my_timesheet.model.Timesheet;
@@ -11,13 +10,12 @@ import ru.gb.spring.my_timesheet.repository.ProjectRepository;
 import ru.gb.spring.my_timesheet.repository.TimesheetRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
-@Service // то же самое, что и Component, это больше метка для нас
+@Service
 @Timer(level = Level.TRACE)
 public class TimesheetService {
 
@@ -60,13 +58,10 @@ public class TimesheetService {
         if (projectRepository.findById(timesheet.getProject().getId()).isEmpty()) {
             throw new NoSuchElementException("Project with id " + timesheet.getProject().getId() + " does not exists");
         }
-//        timesheet.setCreatedAt(LocalDateTime.now().withNano(0));
-//        timesheet.setCreatedAt(LocalDateTime.now().withNano(0));
+
         timesheet.setCreatedAt(LocalDate.now());
         return timesheetRepository.save(timesheet);
     }
-
-//    @Timer(enabled = false) // выключение аннотации без ее комментирования
 
     public void delete(Long id) {
         timesheetRepository.deleteById(id);
@@ -74,6 +69,18 @@ public class TimesheetService {
 
     public Optional<Project> getProjectById(Long id){
         return projectRepository.findById(id);
+    }
+
+    public Timesheet update(Long id, Timesheet timesheet) {
+        Timesheet existingTimesheet = timesheetRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Timesheet with id " + id + " does not exist"));
+
+        existingTimesheet.setProject(timesheet.getProject());
+        existingTimesheet.setEmployee(timesheet.getEmployee());
+        existingTimesheet.setMinutes(timesheet.getMinutes());
+        existingTimesheet.setCreatedAt(timesheet.getCreatedAt());
+
+        return timesheetRepository.save(existingTimesheet);
     }
 
 }

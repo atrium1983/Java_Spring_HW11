@@ -3,6 +3,7 @@ package ru.gb.spring.my_timesheet.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Set;
@@ -18,20 +19,6 @@ public class Project {
     private Long id;
     @Column(name = "name")
     private String name;
-//    @ManyToMany
-//    @JoinTable(
-////            name = "employee_project",
-//            name = "timesheet",
-//            joinColumns = @JoinColumn(name ="project_id"),
-//            inverseJoinColumns = @JoinColumn(name = "employee_id")
-//    )
+//    @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
 //    private List<Employee> employees;
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "timesheet",
-//            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
-//    private List<Employee> employees;
-    @OneToMany(mappedBy = "project")
-    private Set <Timesheet> timesheets;
 }
