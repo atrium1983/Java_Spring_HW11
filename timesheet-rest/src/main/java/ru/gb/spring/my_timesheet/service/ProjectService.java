@@ -1,7 +1,8 @@
 package ru.gb.spring.my_timesheet.service;
 
 import org.springframework.stereotype.Service;
-import ru.gb.spring.my_timesheet.aspect.Recover;
+import ru.gb.spring.aspect.logging.Logging;
+import ru.gb.spring.aspect.recover.Recover;
 import ru.gb.spring.my_timesheet.model.Project;
 import ru.gb.spring.my_timesheet.model.Timesheet;
 import ru.gb.spring.my_timesheet.repository.ProjectRepository;
@@ -21,19 +22,21 @@ public class ProjectService {
         this.timesheetRepository = timesheetRepository;
     }
 
+    @Logging
+    @Recover
     public Optional<Project> findById(Long id){
         return projectRepository.findById(id);
     }
 
+    @Recover
     public List<Project> findAll(){
         return projectRepository.findAll();
     }
 
-    @Recover
     public Project create(Project project){
         return projectRepository.save(project);
     }
-
+    @Recover
     public void delete(Long id){
         projectRepository.deleteById(id);
     }

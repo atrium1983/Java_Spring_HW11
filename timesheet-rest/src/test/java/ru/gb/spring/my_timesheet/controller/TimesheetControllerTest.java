@@ -118,7 +118,7 @@ class TimesheetControllerTest {
     }
 
     @Test
-    void deleteById() {
+    void testDeleteById() {
         Timesheet toDelete = timesheetRepository.save(createTimesheet(1));
 
         ResponseEntity<Void> response = restClient.delete()

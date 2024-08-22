@@ -1,3 +1,18 @@
+application:
+    logging:
+        enabled: true
+        level: WARN
+        print-args: true
+    recover:
+        enabled: true
+        level: WARN
+        no-recover-for:
+            - java.lang.IllegalArgumentException
+            - java.lang.IllegalStateException
+            - java.lang.ArithmeticException
+    timer:
+        enabled: true
+        level: WARN
 server:
     port: 8080
 spring:

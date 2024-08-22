@@ -1,19 +1,24 @@
 package ru.gb.spring.my_timesheet;
 
+import org.slf4j.event.Level;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
-import ru.gb.spring.my_timesheet.aspect.Recover;
-import ru.gb.spring.my_timesheet.model.*;
+import ru.gb.spring.aspect.recover.Recover;
+import ru.gb.spring.my_timesheet.generator.EmployeeGenerator;
+import ru.gb.spring.my_timesheet.generator.ProjectGenerator;
+import ru.gb.spring.my_timesheet.generator.TimesheetGenerator;
+import ru.gb.spring.my_timesheet.model.Role;
+import ru.gb.spring.my_timesheet.model.RoleName;
+import ru.gb.spring.my_timesheet.model.User;
+import ru.gb.spring.my_timesheet.model.UserRole;
 import ru.gb.spring.my_timesheet.repository.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.concurrent.ThreadLocalRandom;
+import ru.gb.spring.my_timesheet.service.TimesheetService;
 
 @EnableDiscoveryClient
 @SpringBootApplication
+//@Import(LoggingAutoConfiguration.class) // вместо этого в logging-starter ресурсах создан META-INF/spring/file с путем к этому классу
 public class MyRestApplication {
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(MyRestApplication.class, args);
@@ -97,37 +102,33 @@ public class MyRestApplication {
 		restRestRole.setRole(roleRepository.findByName(RoleName.REST));
 		userRoleRepository.save(restRestRole);
 
+//		RoleRepository roleRepository = ctx.getBean(RoleRepository.class);
+//		RoleGenerator roleGenerator = new RoleGenerator();
+//		roleGenerator.generateRolesInRepository(roleRepository);
+//
+//		UserRepository userRepository = ctx.getBean(UserRepository.class);
+//		UserGenerator userGenerator = new UserGenerator();
+//		userGenerator.generateUsersInRepository(userRepository);
+//
+//		UserRoleRepository userRoleRepository = ctx.getBean(UserRoleRepository.class);
+//		UserRoleGenerator userRoleGenerator = new UserRoleGenerator();
+//		userRoleGenerator.generateUserRolesInRepository(userRoleRepository, roleRepository, userGenerator);
+
 		ProjectRepository projectRepo = ctx.getBean(ProjectRepository.class);
-		for (int i = 1; i <= 5; i++) {
-			Project project = new Project();
-			project.setName("Project #" + i);
-			projectRepo.save(project);
-		}
+		ProjectGenerator projectGenerator = new ProjectGenerator();
+		projectGenerator.generateProjectsInRepository(projectRepo, 5);
 
 		EmployeeRepository employeeRepo = ctx.getBean(EmployeeRepository.class);
-		Generator generator = new Generator();
-		for (int i = 1; i <= 5; i++) {
-			Employee employee = new Employee();
-			employee.setFirstName(generator.generateMaleFirstName());
-			employee.setLastName(generator.generateMaleLastName());
-			employee.setPhone(generator.generatePhone());
-			employee.setDepartment(generator.generateDepartment());
-			employeeRepo.save(employee);
-		}
+		EmployeeGenerator employeeGenerator = new EmployeeGenerator();
+		employeeGenerator.generateEmployeesInRepository(employeeRepo, 5);
 
 		TimesheetRepository timesheetRepo = ctx.getBean(TimesheetRepository.class);
+		TimesheetGenerator timesheetGenerator = new TimesheetGenerator();
+		timesheetGenerator.generateTimesheetsInRepository(timesheetRepo, employeeRepo, projectRepo, 10);
 
-		LocalDateTime createdAt = LocalDateTime.now();
-		for (int i = 1; i <= 10; i++) {
-			createdAt = createdAt.plusDays(1).plusHours(1);
-
-			Timesheet timesheet = new Timesheet();
-			timesheet.setProject(projectRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
-			timesheet.setEmployee(employeeRepo.getReferenceById(ThreadLocalRandom.current().nextLong(1, 6)));
-			timesheet.setCreatedAt(LocalDate.from(createdAt));
-			timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));
-
-			timesheetRepo.save(timesheet);
-		}
+		System.out.println("__________________________________________________________________________________");
+		System.out.println("__________________________________________________________________________________");
+		TimesheetService timesheetService = new TimesheetService(timesheetRepo, projectRepo);
+		System.out.println("Result of Recover annotation: " + timesheetService.getProjectById(100L));
 	}
 }

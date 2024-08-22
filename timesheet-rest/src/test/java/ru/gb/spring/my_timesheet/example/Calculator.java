@@ -9,4 +9,8 @@ public class Calculator {
     public int foo(int x) {
         return x ^ 2;
     }
+
+    public int dev(int a, int b) {
+        return a / b;
+    }
 }

@@ -3,7 +3,8 @@ package ru.gb.spring.my_timesheet.service;
 import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.gb.spring.my_timesheet.aspect.Timer;
+import ru.gb.spring.aspect.recover.Recover;
+import ru.gb.spring.aspect.timer.Timer;
 import ru.gb.spring.my_timesheet.model.Project;
 import ru.gb.spring.my_timesheet.model.Timesheet;
 import ru.gb.spring.my_timesheet.repository.ProjectRepository;
@@ -67,10 +68,15 @@ public class TimesheetService {
         timesheetRepository.deleteById(id);
     }
 
+    @Recover(level = Level.TRACE)
     public Optional<Project> getProjectById(Long id){
+        if (projectRepository.findById(id).isEmpty()) {
+            throw new NoSuchElementException("Employee with id = " + id + " does not exists");
+        }
         return projectRepository.findById(id);
     }
 
+    @Recover(level = Level.TRACE)
     public Timesheet update(Long id, Timesheet timesheet) {
         Timesheet existingTimesheet = timesheetRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Timesheet with id " + id + " does not exist"));

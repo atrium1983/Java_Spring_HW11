@@ -18,4 +18,13 @@ public class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void testDev() {
+        Calculator calculator = new Calculator();
+        int actual = calculator.dev(2, 0);
+        int expected = 5;
+
+        assertEquals(expected, actual);
+    }
 }

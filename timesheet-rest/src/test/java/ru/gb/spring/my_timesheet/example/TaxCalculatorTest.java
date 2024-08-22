@@ -1,9 +1,7 @@
 package ru.gb.spring.my_timesheet.example;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -13,7 +11,7 @@ class TaxCalculatorTest {
     // Способ 1
     @Test
     void testGetPriceWithTax() {
-        TaxResolver mock = mock(TaxResolver.class); // мок - подмена какого-то объекта, здесь подменяем TaxResolver, чтобы к нему не обращаться
+        TaxResolver mock = Mockito.mock(TaxResolver.class); // мок - подмена какого-то объекта, здесь подменяем TaxResolver, чтобы к нему не обращаться
 //    when(mock.getCurrentTax()).thenReturn(0.2);
         doReturn(0.2).when(mock).getCurrentTax(); // этот вариант лучше
 

@@ -1,31 +1,25 @@
-package ru.gb.spring.my_timesheet.aspect;
+package ru.gb.spring.aspect.timer;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
 @Slf4j
 @Aspect
-@Component
+@RequiredArgsConstructor
 public class TimerAspect {
 
-//  // Pointcut(execution (....controllers.*.*(..)))
-//  public void handleException(Exception e) {
-//    if (e.getClass().isAssignableFrom(NoSuchElementException.class)) {
-//      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-//    }
-//  }
-
-    @Pointcut("@annotation(ru.gb.spring.my_timesheet.aspect.Timer)") // method
+    private final TimerProperties properties;
+    @Pointcut("@annotation(ru.gb.spring.aspect.timer.Timer)")
     public void timerMethodsPointcut() {}
 
-    @Pointcut("@within(ru.gb.spring.my_timesheet.aspect.Timer)") // class
+    @Pointcut("@within(ru.gb.spring.aspect.timer.Timer)")
     public void timerTypePointcut() {}
 
     @Around(value = "timerMethodsPointcut() || timerTypePointcut()")
@@ -34,7 +28,7 @@ public class TimerAspect {
         Object target = pjp.getTarget();
         Method method = methodSignature.getMethod();
 
-        boolean enabled = true; // обработка состояния аннотации
+        boolean enabled = true;
         if (method.isAnnotationPresent(Timer.class)) {
             enabled = method.getAnnotation(Timer.class).enabled();
         } else if (target.getClass().isAnnotationPresent(Timer.class)) {
@@ -50,7 +44,7 @@ public class TimerAspect {
             return pjp.proceed();
         } finally {
             long duration = System.currentTimeMillis() - start;
-            log.info("TimesheetService#{} duration = {}ms", pjp.getSignature().getName(), duration);
+            log.atLevel(properties.getLevel()).log("TimesheetService#{} duration = {}ms", pjp.getSignature().getName(), duration);
         }
     }
 

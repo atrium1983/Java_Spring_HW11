@@ -11,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import ru.gb.spring.my_timesheet.model.Project;
-import ru.gb.spring.my_timesheet.model.Timesheet;
 import ru.gb.spring.my_timesheet.repository.ProjectRepository;
 
 import static org.junit.jupiter.api.Assertions.*;

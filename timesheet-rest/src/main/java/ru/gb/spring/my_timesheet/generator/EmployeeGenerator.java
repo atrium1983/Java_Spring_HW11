@@ -1,14 +1,11 @@
-package ru.gb.spring.my_timesheet;
+package ru.gb.spring.my_timesheet.generator;
 
-import ru.gb.spring.my_timesheet.model.Project;
-import ru.gb.spring.my_timesheet.repository.ProjectRepository;
+import ru.gb.spring.my_timesheet.model.Employee;
+import ru.gb.spring.my_timesheet.repository.EmployeeRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
-public class Generator {
+public class EmployeeGenerator {
     private final String[] lastNameMaleBase = new String[]{
             "Иванов", "Петров", "Тарасов", "Владимиров", "Сидоров", "Дмитриев", "Степанов", "Никитин", "Андреев", "Егоров"
     };
@@ -55,14 +52,26 @@ public class Generator {
     public String generateDepartment(){
         return departmentsBase[getRandomInt(departmentsBase.length)];
     }
-    
-    public List<Project> generateListOfProjects(List<Project> projectList){
-        List<Project> projectChosen = new ArrayList<>();
-        for (int i = 1; i <= getRandomInt(5); i++) {
-            projectChosen.add(projectList.get(getRandomInt(5)));
+
+    public Employee generateRandEmployee(){
+        Employee employee = new Employee();
+        int gender = getRandomInt(2);
+        if(gender == 0){
+            employee.setFirstName(generateFemaleFirstName());
+            employee.setLastName(generateFemaleLastName());
+        } else {
+            employee.setFirstName(generateMaleFirstName());
+            employee.setLastName(generateMaleLastName());
         }
-        return projectChosen.stream().distinct().collect(Collectors.toList());
+        employee.setPhone(generatePhone());
+        employee.setDepartment(generateDepartment());
+
+        return employee;
     }
 
+    public void generateEmployeesInRepository(EmployeeRepository employeeRepo, int num){
+        for (int i = 1; i <= num; i++) {
+            employeeRepo.save(generateRandEmployee());
+        }
+    }
 }
-
